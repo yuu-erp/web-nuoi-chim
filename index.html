@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phạm Phong Farm</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font tuỳ chọn (Google Fonts) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 text-slate-900">
+
+  <!-- HEADER -->
+  <header class="border-b bg-white/80 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+
+      <!-- Logo + tên web -->
+      <div class="flex items-center gap-3">
+        <img src="images/logo.jpg" alt="Phạm Phong Fram" width="50"> 
+        <!--<div
+          class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-400 to-sky-400 flex items-center justify-center text-white font-bold shadow">
+           LG 
+        </div>-->
+        
+        <div>
+          <div class="font-semibold text-lg">Phạm Phong Farm</div>
+          <!--<p class="text-xs text-slate-500">Trại Chào Mào Đột Biến</p>-->
+        </div>
+        
+      </div>
+
+      <!-- Câu khẩu hiệu ở giữa -->
+      <div class="hidden md:block text-center flex-1">
+        <p class="font-semibold text-sm md:text-base text-emerald-600">
+          “MỖI QUẢ TRỨNG LÀ HÀNH TRÌNH THÀNH CHIẾN BINH”
+        </p>
+      </div>
+
+      <!-- Đăng nhập / Đăng ký -->
+      <div id="authArea" class="flex items-center gap-2">
+        <a href="cart.html"
+          class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-lg border border-slate-200 hover:border-emerald-400 hover:text-emerald-600">
+          Giỏ hàng <span id="cartCountTop"
+            class="text-[11px] px-2 py-[2px] rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">0</span>
+        </a>
+        <div id="authButtons" class="flex items-center gap-2">
+          <button id="registerBtn"
+            class="px-3 py-1.5 text-sm rounded-lg border border-slate-200 hover:border-emerald-400 hover:text-emerald-600 transition">
+            Đăng ký
+          </button>
+          <button id="loginBtn"
+            class="px-3 py-1.5 text-sm rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm transition">
+            Đăng nhập
+          </button>
+        </div>
+        <div id="greeting"
+          class="hidden items-center gap-2 text-sm text-slate-700 font-medium px-3 py-1.5 rounded-lg bg-slate-100">
+          <span>Xin chào, <span id="greetingName"></span></span>
+          <button id="logoutBtn" class="text-xs px-2 py-1 rounded-md bg-rose-100 text-rose-700 hover:bg-rose-200">Đăng
+            xuất</button>
+        </div>
+      </div>
+    </div>
+    
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-12 gap-6">
+
+    <!-- SIDEBAR MENU BÊN TRÁI -->
+    <aside class="col-span-12 md:col-span-3 lg:col-span-2">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sticky top-20">
+        <h2 class="font-semibold mb-3 text-sm uppercase tracking-wide text-slate-500">
+          Menu
+        </h2>
+        <nav class="space-y-1 text-sm">
+          <a href="#"
+            class="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 font-medium">
+            Trang chủ
+            <span class="text-[10px] bg-white px-2 py-[2px] rounded-full border border-emerald-100">Home</span>
+          </a>
+          <a href="products.html" class="block px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+            Sản phẩm
+          </a>
+          <div id="menu-posts-container">
+            <div
+              class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-50 transition cursor-pointer"
+              id="menu-posts-header">
+              <a href="posts.html" class="flex-1">Kinh nghiệm</a>
+              <button id="menu-posts-toggle"
+                class="p-1 rounded-md hover:bg-slate-200 text-slate-400 hover:text-slate-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="w-4 h-4 transition-transform duration-200" id="menu-posts-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+              </button>
+            </div>
+            <ul id="menu-posts-submenu" class="hidden pl-4 space-y-1 mt-1 border-l border-slate-100 ml-3">
+              <!-- Dynamic categories will be loaded here -->
+            </ul>
+          </div>
+          <a href="countdown.html" class="block px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+            Theo dõi trứng chim nở
+          </a>
+          <!--<a href="about.html" class="block px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+            Về chúng tôi
+          </a>-->
+          <!--<a href="contact.html" class="block px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+            Liên hệ
+          </a>-->
+          <!--<a href="cart.html"
+            class="block px-3 py-2 rounded-xl hover:bg-slate-50 transition flex items-center justify-between">
+            Giỏ hàng
+            <span id="cartCount"
+              class="text-[11px] px-2 py-[2px] rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">0</span>
+          </a>-->
+          <!-- Link cho trang admin -->
+          <div class="border-t pt-3 mt-2">
+            <a id="adminLink" href="admin-dashboard.html"
+              class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-slate-500 hover:bg-slate-50 hidden">
+              <span
+                class="inline-flex w-5 h-5 items-center justify-center rounded-full bg-slate-100 text-[10px]">A</span>
+              Khu vực quản trị
+            </a>
+          </div>
+          <!--<div class="mt-4 p-6 rounded-xl bg-emerald-50 border border-emerald-100 text-xs text-emerald-700">
+            <p class="font-semibold text-sm">Liên hệ treo banner để quảng bá sản phẩm của bạn</p>
+            <p class="mt-1">Email: 2019phamphong @gmail.com</p>
+            <p>Zalo: 0977.040.918</p>
+          </div>-->
+        </nav>
+      </div>
+    </aside>
+
+    <!-- CONTENT CHÍNH -->
+    <section class="col-span-12 md:col-span-9 lg:col-span-10 space-y-8">
+
+      <!-- ẢNH HERO LỚN -->
+      <section>
+        <div
+          class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-100 via-emerald-50 to-amber-50 border border-slate-100 shadow-sm">
+          <div class="absolute inset-0 opacity-30 pointer-events-none"
+            style="background-image: radial-gradient(circle at 10% 20%, #22c55e 0, transparent 50%), radial-gradient(circle at 70% 0, #0ea5e9 0, transparent 50%), radial-gradient(circle at 90% 80%, #fbbf24 0, transparent 50%);">
+          </div>
+          <div class="relative z-10 p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1 space-y-3">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
+                Trang chủ
+              </p>
+              <h1 class="text-2xl md:text-3xl font-bold text-slate-900">
+                Theo dõi hành trình từ quả trứng<br class="hidden md:block" />
+                đến chú chim non khoẻ mạnh
+              </h1>
+              <p class="text-sm md:text-base text-slate-600">
+                Cập nhật thông tin tổ chim, sản phẩm, kiến thức chăm sóc và đặc biệt là
+                tính năng <span class="font-semibold text-emerald-600">"Đếm ngược ngày chim nở"</span>
+                sau khi bạn đăng nhập.
+              </p>
+              <div class="flex flex-wrap items-center gap-3 pt-1">
+                <a href="countdown.html"
+                  class="inline-flex items-center px-4 py-2 rounded-xl bg-emerald-500 text-white text-sm font-medium hover:bg-emerald-600 transition shadow-sm">
+                  Theo Dõi Trứng Chim Nở
+                </a>
+                <a href="posts.html"
+                  class="inline-flex items-center px-4 py-2 rounded-xl border text-sm border-slate-200 hover:border-emerald-400 hover:text-emerald-600 bg-white/70 backdrop-blur">
+                  Bài viết nổi bật
+                </a> 
+              </div>
+            </div>
+            <!-- Khung ảnh minh họa giống ô "Ảnh" trong bản vẽ -->                                                                                                                                                                                                                                                                                     
+            <!--<div
+              
+              class="w-full md:w-80 h-48 md:h-56 rounded-2xl bg-white/80 border border-dashed border-emerald-300 flex items-center justify-center text-xs md:text-sm text-emerald-700">
+               Khu vực hiển thị ảnh tổ chim / banner -->
+               <img src="images/banner2.jpg" alt="Phạm Phong Fram" width="400"> 
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SẢN PHẨM BÁN -->
+      <section id="san-pham" class="space-y-4">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-xl md:text-2xl font-semibold">Sản phẩm </h2>
+          <a href="products.html" class="text-xs md:text-sm text-emerald-600 hover:text-emerald-700">
+            Xem tất cả &rarr;
+          </a>
+        </div>
+
+        <div id="productList" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <p class="col-span-2 md:col-span-4 text-sm text-slate-500">Đang tải sản phẩm...</p>
+        </div>
+      </section>
+
+      <!-- BÀI VIẾT NỔI BẬT -->
+      <section id="bai-viet" class="space-y-4 pb-10">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-xl md:text-2xl font-semibold">Bài viết </h2>
+          <a href="posts.html" class="text-xs md:text-sm text-emerald-600 hover:text-emerald-700">
+            Xem tất cả &rarr;
+          </a>
+        </div>
+
+        <div id="postList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <p class="col-span-1 md:col-span-3 text-sm text-slate-500">Đang tải bài viết...</p>
+        </div>
+      </section>
+    </section>
+    
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t bg-white">
+    <div
+      class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <p>Trại Chào Mào Đột Biến</p>
+      <p>Phạm Phong Farm</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // Inline script để load danh mục cho menu
+    (function () {
+      const API_BASE = 'http://localhost:3000/api';
+
+      function renderMenuCategoryNode(node, level) {
+        // Chỉ hiển thị danh mục chính (cấp 1), không render danh mục con
+        level = level || 0;
+        const indent = 0; // luôn canh giống nhau
+        let html = '<li style="padding-left:' + indent + 'px" class="py-1">';
+        html += '<a href="posts.html?category=' + node.id + '" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 transition text-xs">';
+        html += (node.name || '');
+        html += '</a>';
+        html += '</li>';
+        return html;
+      }
+
+      function loadAndRenderCategories() {
+        fetch(API_BASE + '/post-categories')
+          .then(function (response) { return response.json(); })
+          .then(function (data) {
+            const submenu = document.getElementById('menu-posts-submenu');
+            if (!submenu) return;
+
+            const categories = data.categories || [];
+            if (!categories.length) {
+              submenu.innerHTML = '<li class="text-xs text-slate-400 px-3 py-1">Chưa có danh mục.</li>';
+              return;
+            }
+
+            let html = '';
+            categories.forEach(function (node) {
+              html += renderMenuCategoryNode(node, 0);
+            });
+            submenu.innerHTML = html;
+          })
+          .catch(function (err) {
+            console.error('Failed to load categories:', err);
+          });
+      }
+
+      // Wire toggle button
+      const toggleButton = document.getElementById('menu-posts-toggle');
+      const submenu = document.getElementById('menu-posts-submenu');
+      const icon = document.getElementById('menu-posts-icon');
+
+      if (toggleButton && submenu && icon) {
+        toggleButton.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          submenu.classList.toggle('hidden');
+          icon.classList.toggle('rotate-180');
+        });
+      }
+
+      // Load categories on page load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadAndRenderCategories);
+      } else {
+        loadAndRenderCategories();
+      }
+    })();
+  </script>
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Trang trại chim cảnh</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Inter", sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+  <div class="min-h-screen flex">
+    <aside class="hidden md:flex md:flex-col w-64 bg-slate-950 text-slate-100">
+      <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-800">
+        <img src="images/logo.jpg" alt="Phạm Phong Fram" width="50">
+        <!--<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-400 to-sky-400 flex items-center justify-center text-white font-bold">
+          LG
+        </div>-->
+        <div>
+          <p class="text-sm font-semibold">Phạm Phong Farm</p>
+          <p class="text-[11px] text-slate-400">Khu vực quản trị</p>
+        </div>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+        <p class="px-2 text-[11px] uppercase tracking-wide text-slate-500 mb-1">Tổng quan</p>
+        <a href="#" class="flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-800 text-emerald-300">
+          <span>Bảng điều khiển</span>
+          <span class="text-[10px] bg-slate-700 px-2 py-[2px] rounded-full">Home</span>
+        </a>
+        <p class="px-2 mt-4 text-[11px] uppercase tracking-wide text-slate-500 mb-1">Quản lý</p>
+        <a href="#orders" class="flex items-center px-2.5 py-2 rounded-lg hover:bg-slate-800">Đơn hàng</a>
+        <a href="#products" class="flex items-center px-2.5 py-2 rounded-lg hover:bg-slate-800">Sản phẩm</a>
+        <a href="#posts" class="flex items-center px-2.5 py-2 rounded-lg hover:bg-slate-800">Bài viết</a>
+        <a href="#users" class="flex items-center px-2.5 py-2 rounded-lg hover:bg-slate-800">Tài khoản</a>
+        <p class="px-2 mt-4 text-[11px] uppercase tracking-wide text-slate-500 mb-1">Khác</p>
+        <a href="index.html" class="flex items-center px-2.5 py-2 rounded-lg hover:bg-slate-800">Xem Website</a>
+      </nav>
+      <div class="px-4 py-3 border-t border-slate-800 text-xs text-slate-400">
+        Đang đăng nhập: <span class="text-slate-200 font-medium">Admin</span>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col">
+      <header class="bg-white border-b border-slate-200 px-4 md:px-6 py-3 flex items-center justify-between">
+        <div>
+          <h1 class="text-lg md:text-xl font-semibold">Bảng điều khiển</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Quản lý sản phẩm, đơn hàng, bài viết và tài khoản.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="countdown.html" class="hidden sm:inline-flex items-center rounded-xl border border-slate-200 px-3 py-1.5 text-xs hover:border-emerald-500 hover:text-emerald-600">
+            Đếm ngược ngày chim nở
+          </a>
+          <button id="adminLogout" class="px-3 py-1.5 text-xs rounded-lg bg-rose-100 text-rose-700 hover:bg-rose-200">Đăng xuất</button>
+        </div>
+      </header>
+
+      <main class="flex-1 p-4 md:p-6 space-y-6">
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
+            <p class="text-xs text-slate-500 mb-1">Đơn hàng hôm nay</p>
+            <p class="text-2xl font-semibold" id="ordersTodayCount">0</p>
+            <p class="text-[11px] text-emerald-600 mt-1">Cập nhật từ API</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
+            <p class="text-xs text-slate-500 mb-1">Sản phẩm đang bán</p>
+            <p class="text-2xl font-semibold" id="productsCount">0</p>
+            <p class="text-[11px] text-slate-500 mt-1">Tính theo trạng thái</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
+            <p class="text-xs text-slate-500 mb-1">Bài viết đã đăng</p>
+            <p class="text-2xl font-semibold" id="postsCount">0</p>
+            <p class="text-[11px] text-slate-500 mt-1">Bao gồm bản nháp</p>
+          </div>
+        </section>
+
+        <!-- QUẢN LÝ ĐƠN HÀNG -->
+        <section id="orders" class="bg-white rounded-2xl border border-slate-100 shadow-sm">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+            <div>
+              <h2 class="text-sm md:text-base font-semibold">Đơn hàng mới</h2>
+              <p class="text-xs text-slate-500">Theo dõi các đơn hàng gần đây.</p>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs md:text-sm">
+              <thead class="bg-slate-50">
+                <tr class="text-left">
+                  <th class="px-4 py-2">Mã đơn</th>
+                  <th class="px-4 py-2">Khách hàng</th>
+                  <th class="px-4 py-2">Liên hệ</th>
+                  <th class="px-4 py-2">Tổng tiền</th>
+                  <th class="px-4 py-2">Ngày</th>
+                  <th class="px-4 py-2">Trạng thái</th>
+                  <th class="px-4 py-2 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="orderTableBody"></tbody>
+            </table>
+          </div>
+          <div id="orderMessage" class="px-4 py-2 text-sm text-red-600"></div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- SẢN PHẨM -->
+          <div id="products" class="bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+              <div>
+                <h2 class="text-sm md:text-base font-semibold">Sản phẩm bán</h2>
+                <p class="text-xs text-slate-500">Quản lý các sản phẩm đang hiển thị trên web.</p>
+              </div>
+            </div>
+
+            <form id="productForm" class="px-4 py-3 border-b border-slate-100 grid grid-cols-2 gap-3 text-sm">
+              <input id="productId" type="hidden">
+              <input id="productName" type="text" placeholder="Tên sản phẩm" class="col-span-2 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none" required>
+              <input id="productPrice" type="number" placeholder="Giá" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+              <input id="productStock" type="number" placeholder="Tồn kho" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+              <select id="productStatus" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+                <option value="available">Đang bán</option>
+                <option value="unavailable">Tạm ẩn</option>
+              </select>
+              <input id="productImage" type="text" placeholder="Ảnh (URL)" class="col-span-2 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+              <input id="productImageFile" type="file" accept="image/*" class="col-span-2 text-sm text-slate-600">
+              <button type="submit" class="col-span-2 px-3 py-2 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600" id="productSubmit">
+                + Thêm sản phẩm
+              </button>
+              <div id="productMessage" class="col-span-2 text-sm text-red-600"></div>
+            </form>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs md:text-sm">
+                <thead class="bg-slate-50">
+                  <tr class="text-left">
+                    <th class="px-4 py-2">Tên sản phẩm</th>
+                    <th class="px-4 py-2">Giá</th>
+                    <th class="px-4 py-2">Tồn kho</th>
+                    <th class="px-4 py-2">Trạng thái</th>
+                    <th class="px-4 py-2 text-right">Sửa</th>
+                  </tr>
+                </thead>
+                <tbody id="productTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- BÀI VIẾT -->
+          <div id="posts" class="bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+              <div>
+                <h2 class="text-sm md:text-base font-semibold">Bài viết</h2>
+                <p class="text-xs text-slate-500">Quản lý nội dung chia sẻ trên blog.</p>
+              </div>
+            </div>
+
+            <div class="px-4 py-3 border-b border-slate-100 space-y-4">
+              <div>
+                <h3 class="text-sm font-semibold">Danh mục bài viết</h3>
+                <p class="text-xs text-slate-500">Tạo danh mục cha và danh mục con để phân loại bài viết.</p>
+              </div>
+              <form id="categoryForm" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                <input id="categoryName" type="text" placeholder="Tên danh mục" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none" required>
+                <select id="categoryParent" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+                  <option value="">Danh mục gốc</option>
+                </select>
+                <button type="submit" class="px-3 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">+ Thêm danh mục</button>
+                <div id="categoryMessage" class="md:col-span-3 text-xs text-red-600"></div>
+              </form>
+              <div id="categoryList" class="space-y-1 text-xs text-slate-600"></div>
+            </div>
+
+            <form id="postForm" class="px-4 py-3 border-b border-slate-100 grid grid-cols-2 gap-3 text-sm">
+              <input id="postId" type="hidden">
+              <input id="postTitle" type="text" placeholder="Tiêu đề" class="col-span-2 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none" required>
+              <input id="postExcerpt" type="text" placeholder="Mô tả ngắn" class="col-span-2 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+              <div class="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <select id="postParentCategory" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+                  <option value="">Danh mục chính</option>
+                </select>
+                <select id="postChildCategory" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none" disabled>
+                  <option value="">Danh mục con</option>
+                </select>
+              </div>
+              <textarea id="postContent" rows="3" placeholder="Nội dung" class="col-span-2 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none"></textarea>
+              <select id="postStatus" class="px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+                <option value="published">Đăng</option>
+                <option value="draft">Bản nháp</option>
+              </select>
+              <input id="postImage" type="text" placeholder="Ảnh (URL)" class="col-span-2 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+              <input id="postImageFile" type="file" accept="image/*" class="col-span-2 text-sm text-slate-600">
+              <button type="submit" id="postSubmit" class="col-span-2 px-3 py-2 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600">
+                + Viết bài mới
+              </button>
+              <div id="postMessage" class="col-span-2 text-sm text-red-600"></div>
+            </form>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs md:text-sm">
+                <thead class="bg-slate-50">
+                  <tr class="text-left">
+                    <th class="px-4 py-2">Tiêu đề</th>
+                    <th class="px-4 py-2">Ngày tạo</th>
+                    <th class="px-4 py-2">Danh mục</th>
+                    <th class="px-4 py-2">Trạng thái</th>
+                    <th class="px-4 py-2 text-right">Sửa</th>
+                  </tr>
+                </thead>
+                <tbody id="postTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUẢN LÝ TÀI KHOẢN -->
+        <section id="users" class="bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+            <div>
+              <h2 class="text-sm md:text-base font-semibold">Tài khoản</h2>
+              <p class="text-xs text-slate-500">Quản lý user và quyền admin.</p>
+            </div>
+          </div>
+          <form id="userForm" class="px-4 py-3 border-b border-slate-100 grid grid-cols-2 gap-3 text-sm">
+            <input id="userId" type="hidden">
+            <input id="userName" type="text" placeholder="Họ tên" class="col-span-2 md:col-span-1 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none" required>
+            <input id="userEmail" type="email" placeholder="Email" class="col-span-2 md:col-span-1 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none" required>
+            <input id="userPassword" type="password" placeholder="Mật khẩu" class="col-span-2 md:col-span-1 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+            <select id="userRole" class="col-span-2 md:col-span-1 px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-500 outline-none">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+            <button id="userSubmit" type="submit" class="col-span-2 px-3 py-2 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600">
+              + Thêm tài khoản
+            </button>
+          </form>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs md:text-sm">
+              <thead class="bg-slate-50">
+                <tr class="text-left">
+                  <th class="px-4 py-2">Tên</th>
+                  <th class="px-4 py-2">Email</th>
+                  <th class="px-4 py-2">Quyền</th>
+                  <th class="px-4 py-2 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody"></tbody>
+            </table>
+          </div>
+          <div id="userMessage" class="px-4 py-3 text-sm text-red-600"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="app.js"></script>
+  <script>
+    (function () {
+      const API_BASE = 'http://localhost:3000/api';
+
+      const categoryForm = document.getElementById('categoryForm');
+      const categoryName = document.getElementById('categoryName');
+      const categoryParent = document.getElementById('categoryParent');
+      const categoryMessage = document.getElementById('categoryMessage');
+      const categoryList = document.getElementById('categoryList');
+
+      const postParentSelect = document.getElementById('postParentCategory');
+      const postChildSelect = document.getElementById('postChildCategory');
+
+      if (!categoryForm && !postParentSelect && !categoryList) return;
+
+      let flatCategories = [];
+
+      function renderCategoryTree(nodes, level, lines) {
+        level = level || 0;
+        lines = lines || [];
+        nodes.forEach(function (node) {
+          const indent = '&nbsp;'.repeat(level * 4);
+          lines.push('<div class="py-0.5">' + indent + node.name + '</div>');
+          if (node.children && node.children.length) {
+            renderCategoryTree(node.children, level + 1, lines);
+          }
+        });
+        return lines;
+      }
+
+      function updateChildOptions(parentId) {
+        if (!postChildSelect) return;
+        postChildSelect.innerHTML = '<option value="">Danh mục con</option>';
+        const children = flatCategories.filter(function (c) { return c.parentId === parentId; });
+        if (!children.length) {
+          postChildSelect.disabled = true;
+          return;
+        }
+        children.forEach(function (c) {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = c.name;
+          postChildSelect.appendChild(opt);
+        });
+        postChildSelect.disabled = false;
+      }
+
+      function refreshCategoryUI(tree) {
+        if (categoryParent) {
+          categoryParent.innerHTML = '<option value="">Danh mục gốc</option>';
+          function addParentOptions(nodes, level) {
+            nodes.forEach(function (node) {
+              const prefix = level > 0 ? Array(level + 1).join('-- ') : '';
+              const opt = document.createElement('option');
+              opt.value = node.id;
+              opt.textContent = prefix + node.name;
+              categoryParent.appendChild(opt);
+              if (node.children && node.children.length) addParentOptions(node.children, level + 1);
+            });
+          }
+          addParentOptions(tree || [], 0);
+        }
+
+        if (postParentSelect) {
+          postParentSelect.innerHTML = '<option value="">Danh mục chính</option>';
+          (tree || []).forEach(function (node) {
+            const opt = document.createElement('option');
+            opt.value = node.id;
+            opt.textContent = node.name;
+            postParentSelect.appendChild(opt);
+          });
+        }
+
+        if (postChildSelect) {
+          postChildSelect.innerHTML = '<option value="">Danh mục con</option>';
+          postChildSelect.disabled = true;
+        }
+
+        if (categoryList) {
+          if (!tree || !tree.length) {
+            categoryList.innerHTML = '<p class="text-xs text-slate-400">Chưa có danh mục nào.</p>';
+          } else {
+            const lines = renderCategoryTree(tree, 0, []);
+            categoryList.innerHTML = lines.join('');
+          }
+        }
+      }
+
+      async function loadCategories() {
+        try {
+          const res = await fetch(API_BASE + '/post-categories');
+          const data = await res.json();
+          const tree = data.categories || [];
+          flatCategories = data.flat || [];
+          refreshCategoryUI(tree);
+          if (categoryMessage) {
+            categoryMessage.textContent = '';
+            categoryMessage.className = 'md:col-span-3 text-xs text-emerald-600';
+          }
+        } catch (err) {
+          if (categoryMessage) {
+            categoryMessage.textContent = err.message || 'Không tải được danh mục';
+            categoryMessage.className = 'md:col-span-3 text-xs text-red-600';
+          }
+        }
+      }
+
+      categoryForm?.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const name = categoryName?.value.trim();
+        const parentId = categoryParent?.value || '';
+        if (!name) {
+          if (categoryMessage) {
+            categoryMessage.textContent = 'Thiếu tên danh mục';
+            categoryMessage.className = 'md:col-span-3 text-xs text-red-600';
+          }
+          return;
+        }
+        try {
+          const token = localStorage.getItem('authToken') || '';
+          await fetch(API_BASE + '/post-categories', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token ? 'Bearer ' + token : '',
+            },
+            body: JSON.stringify({ name, parentId: parentId || null }),
+          });
+          if (categoryName) categoryName.value = '';
+          if (categoryParent) categoryParent.value = '';
+          await loadCategories();
+        } catch (err) {
+          if (categoryMessage) {
+            categoryMessage.textContent = err.message || 'Không tạo được danh mục';
+            categoryMessage.className = 'md:col-span-3 text-xs text-red-600';
+          }
+        }
+      });
+
+      postParentSelect?.addEventListener('change', function (e) {
+        const parentId = e.target.value || '';
+        if (!parentId) {
+          updateChildOptions(null);
+        } else {
+          updateChildOptions(parentId);
+        }
+      });
+
+      loadCategories();
+    })();
+  </script>
+</body>
+</html>

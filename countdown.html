@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theo dõi tổ – đếm ngược ngày chim nở</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>body { font-family: "Inter", sans-serif; }</style>
+</head>
+
+<body class="bg-slate-100 text-slate-900">
+
+  <div class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+    <section>
+      <h1 class="text-xl md:text-2xl font-bold mb-4">
+        Theo dõi tổ – đếm ngược ngày chim nở
+      </h1>
+
+      <p id="countdownNotice" class="text-sm text-slate-600 mb-3"></p>
+
+      <button id="addNestBtn" class="mb-6 px-4 py-2 bg-emerald-500 text-white rounded-xl shadow hover:bg-emerald-600">
+        + Thêm tổ mới
+      </button>
+
+      <div id="listTo" class="space-y-6"></div>
+    </section>
+
+    <!-- Sản phẩm gợi ý cho giai đoạn ấp nở -->
+    <section class="space-y-4">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-lg md:text-xl font-semibold">Sản phẩm gợi ý cho giai đoạn ấp nở</h2>
+        <a href="products.html" class="text-xs md:text-sm text-emerald-600 hover:text-emerald-700">
+          Xem tất cả &rarr;
+        </a>
+      </div>
+
+      <div id="productList" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <p class="col-span-2 md:col-span-3 text-sm text-slate-500">Đang tải sản phẩm gợi ý...</p>
+      </div>
+    </section>
+
+    <!-- Bài viết gợi ý về chăm sóc -->
+    <section class="space-y-4 pb-4">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-lg md:text-xl font-semibold">Bài viết gợi ý khi chăm tổ</h2>
+        <a href="posts.html" class="text-xs md:text-sm text-emerald-600 hover:text-emerald-700">
+          Xem tất cả &rarr;
+        </a>
+      </div>
+
+      <div id="postList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <p class="col-span-1 md:col-span-2 text-sm text-slate-500">Đang tải bài viết gợi ý...</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="app.js"></script>
+</body>
+</html>
