@@ -1,3 +1,4 @@
+// const API_BASE = 'https://web-nuoi-chim.onrender.com/api';
 const API_BASE = 'http://localhost:3000/api';
 
 const storage = {
@@ -989,7 +990,7 @@ function wireCountdownPage() {
       if (item) item.remove();
       if (state.intervals[id]) clearInterval(state.intervals[id]);
       state.nests = state.nests.filter((n) => n.id !== id);
-      triggerSave();
+      saveNest(id);
     }
   });
 
